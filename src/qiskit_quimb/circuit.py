@@ -43,5 +43,12 @@ def quimb_gates(op: Instruction, qubits: list[int]) -> Iterator[quimb.tensor.Gat
         yield quimb.tensor.Gate("RZ", params=[phi], qubits=[a])
         yield quimb.tensor.Gate("GIVENS", params=[0.5 * theta], qubits=[a, b])
         yield quimb.tensor.Gate("RZ", params=[-phi], qubits=[a])
+    elif op.name == "barrier":
+        return
+    elif op.name == "measure":
+        raise ValueError(
+            "Encountered a measurement gate, which is not allowed. "
+            "Remove the measurements from your circuit and try again."
+        )
     else:
         raise ValueError(f"Unsupported gate: {op.name}.")
