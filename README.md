@@ -1,2 +1,32 @@
 # qiskit-quimb
-Simulate Qiskit circuits using quimb
+
+Simulate Qiskit circuits using quimb.
+
+## Example code
+
+```python
+from qiskit.circuit import QuantumCircuit, QuantumRegister
+from qiskit.circuit.library import CPhaseGate, PhaseGate, XGate, XXPlusYYGate
+from qiskit_quimb import quimb_circuit
+
+# Build a Qiskit circuit
+qubits = QuantumRegister(3)
+circuit = QuantumCircuit(qubits)
+a, b, c = qubits
+circuit.append(XGate(), [a])
+circuit.append(XXPlusYYGate(0.5, 0.5), [a, b])
+circuit.append(CPhaseGate(0.1), [b, c])
+circuit.append(PhaseGate(0.1), [c])
+circuit.append(XXPlusYYGate(0.5, 0.5), [a, b])
+
+# Convert it to a quimb circuit
+quimb_circ = quimb_circuit(circuit)
+
+# Sample 10 bitstrings
+samples = list(quimb_circ.sample(10, seed=1234))
+samples
+```
+
+```
+['100', '010', '010', '100', '100', '100', '010', '100', '100', '100']
+```
