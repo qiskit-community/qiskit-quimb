@@ -1,6 +1,6 @@
 # qiskit-quimb
 
-Simulate Qiskit circuits using quimb.
+Simulate [Qiskit](https://www.ibm.com/quantum/qiskit) circuits using [quimb](https://quimb.readthedocs.io/en/latest/).
 
 ## Example code
 
@@ -27,6 +27,6 @@ samples = list(quimb_circ.sample(10, seed=1234))
 samples
 ```
 
-```
+```text
 ['100', '010', '010', '100', '100', '100', '010', '100', '100', '100']
 ```
