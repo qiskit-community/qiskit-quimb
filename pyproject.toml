@@ -1,0 +1,31 @@
+[build-system]
+requires = ["flit_core"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "qiskit-quimb"
+description = "Simulate Qiskit circuits using quimb"
+version = "0.0.0"
+requires-python = ">=3.10"
+dependencies = ["qiskit", "quimb"]
+
+[project.optional-dependencies]
+dev = ["mypy", "pytest", "qiskit[visualization]", "ruff"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+include = [
+    "pyproject.toml",
+    "python/**/*.py",
+    "python/**/*.pyi",
+    "tests/**/*.py",
+    "tests/**/*.pyi",
+    "docs/**/*.py",
+    "docs/**/*.pyi",
+    "docs/**/*.ipynb",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "NPY"]
