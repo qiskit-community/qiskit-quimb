@@ -15,16 +15,30 @@ import quimb.tensor
 from qiskit.circuit import Instruction, QuantumCircuit
 
 
-def quimb_circuit(circuit: QuantumCircuit) -> quimb.tensor.Circuit:
-    quimb_circ = quimb.tensor.Circuit(circuit.num_qubits)
+def quimb_circuit(
+    circuit: QuantumCircuit,
+    quimb_circuit_class: type[quimb.tensor.Circuit] = quimb.tensor.Circuit,
+    **kwargs,
+) -> quimb.tensor.Circuit:
+    """Convert a Qiskit circuit to a quimb circuit."""
+    return quimb_circuit_class.from_gates(
+        quimb_gates(circuit), N=circuit.num_qubits, **kwargs
+    )
+
+
+def quimb_gates(circuit: QuantumCircuit) -> list[quimb.tensor.Gate]:
+    """Convert a Qiskit circuit to a list of quimb gates."""
+    gates = []
     for instruction in circuit.data:
         op = instruction.operation
-        qubits = [circuit.find_bit(qubit).index for qubit in instruction.qubits]
-        quimb_circ.apply_gates(list(quimb_gates(op, qubits)))
-    return quimb_circ
+        qubits = [circuit.find_bit(qubit)[0] for qubit in instruction.qubits]
+        for gate in _gen_quimb_gates(op, qubits):
+            gates.append(gate)
+    return gates
 
 
-def quimb_gates(op: Instruction, qubits: list[int]) -> Iterator[quimb.tensor.Gate]:
+def _gen_quimb_gates(op: Instruction, qubits: list[int]) -> Iterator[quimb.tensor.Gate]:
+    """Convert a Qiskit gate to quimb gates."""
     if op.name == "x":
         yield quimb.tensor.Gate("X", params=[], qubits=qubits)
     elif op.name == "p":

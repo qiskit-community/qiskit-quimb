@@ -18,8 +18,8 @@ testpaths = ["tests"]
 [tool.ruff]
 include = [
     "pyproject.toml",
-    "python/**/*.py",
-    "python/**/*.pyi",
+    "src/**/*.py",
+    "src/**/*.pyi",
     "tests/**/*.py",
     "tests/**/*.pyi",
     "docs/**/*.py",
