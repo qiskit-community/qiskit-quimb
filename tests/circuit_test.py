@@ -12,7 +12,37 @@
 
 import numpy as np
 from qiskit.circuit import QuantumCircuit, QuantumRegister
-from qiskit.circuit.library import CPhaseGate, PhaseGate, XGate, XXPlusYYGate
+from qiskit.circuit.library import (
+    Barrier,
+    CCXGate,
+    CCZGate,
+    CPhaseGate,
+    CXGate,
+    CYGate,
+    CZGate,
+    HGate,
+    IGate,
+    PhaseGate,
+    RXGate,
+    RXXGate,
+    RYGate,
+    RYYGate,
+    RZGate,
+    RZZGate,
+    SdgGate,
+    SGate,
+    SwapGate,
+    TdgGate,
+    TGate,
+    U1Gate,
+    U2Gate,
+    U3Gate,
+    XGate,
+    XXPlusYYGate,
+    YGate,
+    ZGate,
+    iSwapGate,
+)
 from qiskit.quantum_info import Statevector
 from qiskit_quimb import quimb_circuit
 from qiskit_quimb.testing import assert_allclose_up_to_global_phase
@@ -37,6 +67,37 @@ def test_quimb_circuit():
     circuit.append(PhaseGate(rng.uniform(-10, 10)), [b])
     circuit.append(PhaseGate(rng.uniform(-10, 10)), [c])
     circuit.append(PhaseGate(rng.uniform(-10, 10)), [d])
+    circuit.append(RXGate(rng.uniform(-10, 10)), [a])
+    circuit.append(RYGate(rng.uniform(-10, 10)), [b])
+    circuit.append(RZGate(rng.uniform(-10, 10)), [c])
+    circuit.append(RXXGate(rng.uniform(-10, 10)), [a, b])
+    circuit.append(RYYGate(rng.uniform(-10, 10)), [b, c])
+    circuit.append(RZZGate(rng.uniform(-10, 10)), [c, d])
+    circuit.append(YGate(), [b])
+    circuit.append(YGate(), [c])
+    circuit.append(ZGate(), [b])
+    circuit.append(ZGate(), [c])
+    circuit.append(HGate(), [b])
+    circuit.append(HGate(), [c])
+    circuit.append(IGate(), [c])
+    circuit.append(SGate(), [a])
+    circuit.append(TGate(), [b])
+    circuit.append(SdgGate(), [c])
+    circuit.append(TdgGate(), [d])
+    circuit.append(U1Gate(rng.uniform(-10, 10)), [d])
+    circuit.append(U2Gate(rng.uniform(-10, 10), rng.uniform(-10, 10)), [d])
+    circuit.append(
+        U3Gate(rng.uniform(-10, 10), rng.uniform(-10, 10), rng.uniform(-10, 10)), [d]
+    )
+    circuit.append(CCXGate(), [a, b, c])
+    circuit.append(CCZGate(), [a, b, c])
+    circuit.append(CXGate(), [a, b])
+    circuit.append(CYGate(), [a, b])
+    circuit.append(CZGate(), [a, b])
+    circuit.append(SwapGate(), [a, b])
+    circuit.append(iSwapGate(), [b, c])
+    circuit.append(Barrier(4), [a, b, c, d])
+    circuit.append(Barrier(3), [a, b, d])
 
     quimb_circ = quimb_circuit(circuit)
     qiskit_vec = np.array(Statevector(circuit))
