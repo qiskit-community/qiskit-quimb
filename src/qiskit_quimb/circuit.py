@@ -20,7 +20,19 @@ def quimb_circuit(
     quimb_circuit_class: type[quimb.tensor.Circuit] = quimb.tensor.Circuit,
     **kwargs,
 ) -> quimb.tensor.Circuit:
-    """Convert a Qiskit circuit to a quimb circuit."""
+    """Convert a Qiskit circuit to a quimb circuit.
+
+    The quimb circuit is constructed using the ``from_gates`` method of the quimb
+    circuit class (``quimb.tensor.Circuit`` by default), passing along the keyword
+    arguments from ``kwargs``.
+
+    Args:
+        circuit: The Qiskit circuit.
+        quimb_circuit_class: The ``quimb.tensor.Circuit`` subclass to use.
+
+    Returns:
+        The quimb circuit.
+    """
     return quimb_circuit_class.from_gates(
         quimb_gates(circuit), N=circuit.num_qubits, **kwargs
     )
