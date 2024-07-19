@@ -5,6 +5,7 @@ Simulate [Qiskit](https://www.ibm.com/quantum/qiskit) circuits using [quimb](htt
 ## Example code
 
 ```python
+import quimb.tensor
 from qiskit.circuit import QuantumCircuit, QuantumRegister
 from qiskit.circuit.library import CPhaseGate, PhaseGate, XGate, XXPlusYYGate
 from qiskit_quimb import quimb_circuit
@@ -24,9 +25,17 @@ quimb_circ = quimb_circuit(circuit)
 
 # Sample 10 bitstrings
 samples = list(quimb_circ.sample(10, seed=1234))
-samples
+print(samples)
+
+# You can specify the quimb Circuit subclass and keyword arguments for the constructor
+quimb_circ = quimb_circuit(
+    circuit, quimb_circuit_class=quimb.tensor.CircuitMPS, max_bond=20
+)
+samples = list(quimb_circ.sample(10))
+print(samples)
 ```
 
 ```text
 ['100', '010', '010', '100', '100', '100', '010', '100', '100', '100']
+['100', '100', '010', '010', '010', '100', '100', '100', '100', '100']
 ```
