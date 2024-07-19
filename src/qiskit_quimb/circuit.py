@@ -26,6 +26,8 @@ def quimb_circuit(
     circuit class (``quimb.tensor.Circuit`` by default), passing along the keyword
     arguments from ``kwargs``.
 
+    The resulting circuit is guaranteed to be equivalent only up to global phase.
+
     Args:
         circuit: The Qiskit circuit.
         quimb_circuit_class: The ``quimb.tensor.Circuit`` subclass to use.
@@ -39,7 +41,10 @@ def quimb_circuit(
 
 
 def quimb_gates(circuit: QuantumCircuit) -> list[quimb.tensor.Gate]:
-    """Convert a Qiskit circuit to a list of quimb gates."""
+    """Convert a Qiskit circuit to a list of quimb gates.
+
+    The gate decomposition is guaranteed to be equivalent only up to global phase.
+    """
     gates = []
     for instruction in circuit.data:
         op = instruction.operation
