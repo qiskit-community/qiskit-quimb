@@ -31,11 +31,11 @@ print(samples)
 quimb_circ = quimb_circuit(
     circuit, quimb_circuit_class=quimb.tensor.CircuitMPS, max_bond=20
 )
-samples = list(quimb_circ.sample(10))
+samples = list(quimb_circ.sample(10, seed=1234))
 print(samples)
 ```
 
 ```text
 ['100', '010', '010', '100', '100', '100', '010', '100', '100', '100']
-['100', '100', '010', '010', '010', '100', '100', '100', '100', '100']
+['100', '100', '100', '100', '100', '100', '010', '100', '010', '100']
 ```
