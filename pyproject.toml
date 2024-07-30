@@ -10,10 +10,14 @@ requires-python = ">=3.10"
 dependencies = ["qiskit", "quimb"]
 
 [project.optional-dependencies]
-dev = ["mypy", "pytest", "qiskit[visualization]", "ruff"]
+dev = ["coverage", "mypy", "pytest", "qiskit[visualization]", "ruff"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.mypy]
+ignore_missing_imports = true
+files = ["src/**/*.py", "tests/**/*.py"]
 
 [tool.ruff]
 include = [
