@@ -7,6 +7,18 @@ name = "qiskit-quimb"
 description = "Simulate Qiskit circuits using quimb"
 version = "0.0.0"
 requires-python = ">=3.10"
+readme = "README.md"
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 dependencies = ["qiskit", "quimb"]
 
 [project.optional-dependencies]
