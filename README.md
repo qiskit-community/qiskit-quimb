@@ -7,18 +7,14 @@ Simulate [Qiskit](https://www.ibm.com/quantum/qiskit) circuits using [quimb](htt
 ```python
 import quimb.tensor
 from qiskit.circuit import QuantumCircuit, QuantumRegister
-from qiskit.circuit.library import CPhaseGate, PhaseGate, XGate, XXPlusYYGate
 from qiskit_quimb import quimb_circuit
 
 # Build a Qiskit circuit
-qubits = QuantumRegister(3)
+qubits = QuantumRegister(2)
 circuit = QuantumCircuit(qubits)
-a, b, c = qubits
-circuit.append(XGate(), [a])
-circuit.append(XXPlusYYGate(0.5, 0.5), [a, b])
-circuit.append(CPhaseGate(0.1), [b, c])
-circuit.append(PhaseGate(0.1), [c])
-circuit.append(XXPlusYYGate(0.5, 0.5), [a, b])
+a, b = qubits
+circuit.h(a)
+circuit.cx(a, b)
 
 # Convert it to a quimb circuit
 quimb_circ = quimb_circuit(circuit)
@@ -36,6 +32,6 @@ print(samples)
 ```
 
 ```text
-['100', '010', '010', '100', '100', '100', '010', '100', '100', '100']
-['100', '100', '100', '100', '100', '100', '010', '100', '010', '100']
+['00', '00', '11', '00', '11', '00', '11', '00', '11', '11']
+['11', '11', '00', '00', '11', '00', '11', '11', '11', '00']
 ```
