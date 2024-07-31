@@ -24,6 +24,9 @@ dependencies = ["qiskit", "quimb"]
 [project.optional-dependencies]
 dev = ["coverage", "mypy", "pytest", "qiskit[visualization]", "ruff"]
 
+[project.urls]
+Homepage = "https://github.com/qiskit-community/qiskit-quimb"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 

@@ -2,6 +2,19 @@
 
 Simulate [Qiskit](https://www.ibm.com/quantum/qiskit) circuits using [quimb](https://quimb.readthedocs.io/en/latest/).
 
+## Installation
+
+```bash
+pip install qiskit-quimb
+```
+
+## Usage
+
+The `qiskit_quimb` module exposes two functions:
+
+- `quimb_circuit`: Converts a Qiskit circuit to a quimb circuit. This is probably the function you want to use.
+- `quimb_gates`: Converts a Qiskit circuit to a list of quimb gates, which is a bit more flexible.
+
 ## Example code
 
 ```python
