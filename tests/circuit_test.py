@@ -44,6 +44,7 @@ from qiskit.circuit.library import (
     iSwapGate,
 )
 from qiskit.quantum_info import Statevector
+
 from qiskit_quimb import quimb_circuit
 from qiskit_quimb.testing import assert_allclose_up_to_global_phase
 
