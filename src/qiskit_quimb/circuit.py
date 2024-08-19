@@ -65,10 +65,7 @@ def _gen_quimb_gates(op: Instruction, qubits: list[int]) -> Iterator[quimb.tenso
             yield quimb.tensor.Gate("CCZ", params=[], qubits=qubits)
         case "cp":
             (theta,) = op.params
-            a, b = qubits
-            yield quimb.tensor.Gate("RZZ", params=[-0.5 * theta], qubits=[a, b])
-            yield quimb.tensor.Gate("RZ", params=[0.5 * theta], qubits=[a])
-            yield quimb.tensor.Gate("RZ", params=[0.5 * theta], qubits=[b])
+            yield quimb.tensor.Gate("CU1", params=[theta], qubits=qubits)
         case "cx":
             yield quimb.tensor.Gate("CX", params=[], qubits=qubits)
         case "cy":
@@ -88,7 +85,7 @@ def _gen_quimb_gates(op: Instruction, qubits: list[int]) -> Iterator[quimb.tenso
             )
         case "p":
             (theta,) = op.params
-            yield quimb.tensor.Gate("RZ", params=[theta], qubits=qubits)
+            yield quimb.tensor.Gate("U1", params=[theta], qubits=qubits)
         case "rx":
             (theta,) = op.params
             yield quimb.tensor.Gate("RX", params=[theta], qubits=qubits)

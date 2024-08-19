@@ -46,7 +46,6 @@ from qiskit.circuit.library import (
 from qiskit.quantum_info import Statevector
 
 from qiskit_quimb import quimb_circuit
-from qiskit_quimb.testing import assert_allclose_up_to_global_phase
 
 
 def test_quimb_circuit():
@@ -103,4 +102,4 @@ def test_quimb_circuit():
     quimb_circ = quimb_circuit(circuit)
     qiskit_vec = np.array(Statevector(circuit))
     quimb_vec = quimb_circ.to_dense(reverse=True).reshape(-1)
-    assert_allclose_up_to_global_phase(quimb_vec, qiskit_vec)
+    np.testing.assert_allclose(quimb_vec, qiskit_vec)
