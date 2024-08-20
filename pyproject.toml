@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "qiskit-quimb"
 description = "Simulate Qiskit circuits using quimb"
-version = "0.0.1.dev"
+version = "0.0.2.dev"
 requires-python = ">=3.10"
 readme = "README.md"
 license = { file = "LICENSE" }
