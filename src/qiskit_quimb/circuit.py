@@ -124,9 +124,9 @@ def _gen_quimb_gates(op: Instruction, qubits: list[int], **kwargs) -> Iterator[q
             theta, beta = op.params
             phi = beta + 0.5 * math.pi
             a, b = qubits
-            yield quimb.tensor.Gate("RZ", params=[phi], qubits=[a])
-            yield quimb.tensor.Gate("GIVENS", params=[0.5 * theta], qubits=[a, b])
-            yield quimb.tensor.Gate("RZ", params=[-phi], qubits=[a])
+            yield quimb.tensor.Gate("RZ", params=[phi], qubits=[a], **kwargs)
+            yield quimb.tensor.Gate("GIVENS", params=[0.5 * theta], qubits=[a, b], **kwargs)
+            yield quimb.tensor.Gate("RZ", params=[-phi], qubits=[a], **kwargs)
         case "y":
             yield quimb.tensor.Gate("Y", params=[], qubits=qubits, **kwargs)
         case "z":
