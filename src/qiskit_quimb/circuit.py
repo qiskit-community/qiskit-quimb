@@ -49,7 +49,9 @@ def quimb_gates(circuit: QuantumCircuit) -> list[quimb.tensor.Gate]:
     return gates
 
 
-def _gen_quimb_gates(op: Instruction, qubits: list[int], **kwargs) -> Iterator[quimb.tensor.Gate]:
+def _gen_quimb_gates(
+    op: Instruction, qubits: list[int], **kwargs
+) -> Iterator[quimb.tensor.Gate]:
     """Convert a Qiskit gate to quimb gates."""
     match op.name:
         case "barrier":
@@ -117,7 +119,9 @@ def _gen_quimb_gates(op: Instruction, qubits: list[int], **kwargs) -> Iterator[q
             yield quimb.tensor.Gate("U2", params=[phi, lam], qubits=qubits, **kwargs)
         case "u3":
             (theta, phi, lam) = op.params
-            yield quimb.tensor.Gate("U3", params=[theta, phi, lam], qubits=qubits, **kwargs)
+            yield quimb.tensor.Gate(
+                "U3", params=[theta, phi, lam], qubits=qubits, **kwargs
+            )
         case "x":
             yield quimb.tensor.Gate("X", params=[], qubits=qubits, **kwargs)
         case "xx_plus_yy":
@@ -125,7 +129,9 @@ def _gen_quimb_gates(op: Instruction, qubits: list[int], **kwargs) -> Iterator[q
             phi = beta + 0.5 * math.pi
             a, b = qubits
             yield quimb.tensor.Gate("RZ", params=[phi], qubits=[a], **kwargs)
-            yield quimb.tensor.Gate("GIVENS", params=[0.5 * theta], qubits=[a, b], **kwargs)
+            yield quimb.tensor.Gate(
+                "GIVENS", params=[0.5 * theta], qubits=[a, b], **kwargs
+            )
             yield quimb.tensor.Gate("RZ", params=[-phi], qubits=[a], **kwargs)
         case "y":
             yield quimb.tensor.Gate("Y", params=[], qubits=qubits, **kwargs)
