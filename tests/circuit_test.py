@@ -45,7 +45,7 @@ from qiskit.circuit.library import (
 )
 from qiskit.quantum_info import Statevector
 
-from qiskit_quimb import quimb_circuit
+from qiskit_quimb import quimb_circuit, quimb_gate
 
 
 def test_quimb_circuit():
@@ -103,3 +103,7 @@ def test_quimb_circuit():
     qiskit_vec = np.array(Statevector(circuit))
     quimb_vec = quimb_circ.to_dense(reverse=True).reshape(-1)
     np.testing.assert_allclose(quimb_vec, qiskit_vec)
+
+
+def test_quimb_gate_on_barrier():
+    assert quimb_gate(Barrier(4), range(4)) is None
