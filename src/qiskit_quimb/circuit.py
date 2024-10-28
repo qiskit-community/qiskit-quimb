@@ -7,9 +7,11 @@
 # Any modifications or derivative works of this code must retain this
 # copyright notice, and modified files need to carry a notice indicating
 # that they have been altered from the originals.
+from __future__ import annotations
 
 import math
 from collections.abc import Iterator, Sequence
+from typing import Any, Callable
 
 import quimb.tensor
 from qiskit.circuit import Instruction, QuantumCircuit
@@ -53,100 +55,200 @@ def _gen_quimb_gates(
     op: Instruction, qubits: Sequence[int], **kwargs
 ) -> Iterator[quimb.tensor.Gate]:
     """Convert a Qiskit gate to quimb gates."""
-    match op.name:
-        case "barrier":
-            pass
-        case "xx_plus_yy":
-            theta, beta = op.params
-            phi = beta + 0.5 * math.pi
-            a, b = qubits
-            yield quimb.tensor.Gate("RZ", params=[phi], qubits=[a], **kwargs)
-            yield quimb.tensor.Gate(
-                "GIVENS", params=[0.5 * theta], qubits=[a, b], **kwargs
-            )
-            yield quimb.tensor.Gate("RZ", params=[-phi], qubits=[a], **kwargs)
-        case _:
-            yield quimb_gate(op, qubits, **kwargs)
+    name = op.name
+    if name == "barrier":
+        pass
+    elif name == "xx_plus_yy":
+        theta, beta = op.params
+        phi = beta + 0.5 * math.pi
+        a, b = qubits
+        yield quimb.tensor.Gate("RZ", params=[phi], qubits=[a], **kwargs)
+        yield quimb.tensor.Gate("GIVENS", params=[0.5 * theta], qubits=[a, b], **kwargs)
+        yield quimb.tensor.Gate("RZ", params=[-phi], qubits=[a], **kwargs)
+    else:
+        yield quimb_gate(op, qubits, **kwargs)
+
+
+_gate_func: dict[
+    str,
+    Callable[[Instruction, Sequence[int], dict[str, Any]], quimb.tensor.Gate | None],
+] = {}
+
+
+def _register_gate_func(name: str):
+    def g(f):
+        _gate_func[name] = f
+        return f
+
+    return g
+
+
+@_register_gate_func("barrier")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return None
+
+
+@_register_gate_func("ccx")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("CCX", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("ccz")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("CCZ", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("cp")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("CU1", params=[theta], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("cx")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("CX", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("cy")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("CY", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("cz")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("CZ", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("h")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("H", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("id")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("IDEN", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("iswap")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("ISWAP", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("measure")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    raise ValueError(
+        "Encountered a measurement gate, which is not allowed. "
+        "Remove the measurements from your circuit and try again."
+    )
+
+
+@_register_gate_func("p")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("U1", params=[theta], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("rx")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("RX", params=[theta], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("rxx")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("RXX", params=[theta], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("ryy")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("RYY", params=[theta], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("rzz")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("RZZ", params=[theta], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("ry")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("RY", params=[theta], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("rz")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("RZ", params=[theta], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("s")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("S", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("sdg")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("SDG", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("swap")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("SWAP", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("t")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("T", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("tdg")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("TDG", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("u1")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("U1", params=[theta], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("u2")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (phi, lam) = op.params
+    return quimb.tensor.Gate("U2", params=[phi, lam], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("u3")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta, phi, lam) = op.params
+    return quimb.tensor.Gate("U3", params=[theta, phi, lam], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("x")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("X", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("y")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("Y", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("z")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("Z", params=[], qubits=qubits, **kwargs)
 
 
 def quimb_gate(
     op: Instruction, qubits: Sequence[int], **kwargs
 ) -> quimb.tensor.Gate | None:
     """Convert a Qiskit gate to a quimb gate, or ``None`` in case of a barrier."""
-    match op.name:
-        case "barrier":
-            return None
-        case "ccx":
-            return quimb.tensor.Gate("CCX", params=[], qubits=qubits, **kwargs)
-        case "ccz":
-            return quimb.tensor.Gate("CCZ", params=[], qubits=qubits, **kwargs)
-        case "cp":
-            (theta,) = op.params
-            return quimb.tensor.Gate("CU1", params=[theta], qubits=qubits, **kwargs)
-        case "cx":
-            return quimb.tensor.Gate("CX", params=[], qubits=qubits, **kwargs)
-        case "cy":
-            return quimb.tensor.Gate("CY", params=[], qubits=qubits, **kwargs)
-        case "cz":
-            return quimb.tensor.Gate("CZ", params=[], qubits=qubits, **kwargs)
-        case "h":
-            return quimb.tensor.Gate("H", params=[], qubits=qubits, **kwargs)
-        case "id":
-            return quimb.tensor.Gate("IDEN", params=[], qubits=qubits, **kwargs)
-        case "iswap":
-            return quimb.tensor.Gate("ISWAP", params=[], qubits=qubits, **kwargs)
-        case "measure":
-            raise ValueError(
-                "Encountered a measurement gate, which is not allowed. "
-                "Remove the measurements from your circuit and try again."
-            )
-        case "p":
-            (theta,) = op.params
-            return quimb.tensor.Gate("U1", params=[theta], qubits=qubits, **kwargs)
-        case "rx":
-            (theta,) = op.params
-            return quimb.tensor.Gate("RX", params=[theta], qubits=qubits, **kwargs)
-        case "rxx":
-            (theta,) = op.params
-            return quimb.tensor.Gate("RXX", params=[theta], qubits=qubits, **kwargs)
-        case "ryy":
-            (theta,) = op.params
-            return quimb.tensor.Gate("RYY", params=[theta], qubits=qubits, **kwargs)
-        case "rzz":
-            (theta,) = op.params
-            return quimb.tensor.Gate("RZZ", params=[theta], qubits=qubits, **kwargs)
-        case "ry":
-            (theta,) = op.params
-            return quimb.tensor.Gate("RY", params=[theta], qubits=qubits, **kwargs)
-        case "rz":
-            (theta,) = op.params
-            return quimb.tensor.Gate("RZ", params=[theta], qubits=qubits, **kwargs)
-        case "s":
-            return quimb.tensor.Gate("S", params=[], qubits=qubits, **kwargs)
-        case "sdg":
-            return quimb.tensor.Gate("SDG", params=[], qubits=qubits, **kwargs)
-        case "swap":
-            return quimb.tensor.Gate("SWAP", params=[], qubits=qubits, **kwargs)
-        case "t":
-            return quimb.tensor.Gate("T", params=[], qubits=qubits, **kwargs)
-        case "tdg":
-            return quimb.tensor.Gate("TDG", params=[], qubits=qubits, **kwargs)
-        case "u1":
-            (theta,) = op.params
-            return quimb.tensor.Gate("U1", params=[theta], qubits=qubits, **kwargs)
-        case "u2":
-            (phi, lam) = op.params
-            return quimb.tensor.Gate("U2", params=[phi, lam], qubits=qubits, **kwargs)
-        case "u3":
-            (theta, phi, lam) = op.params
-            return quimb.tensor.Gate(
-                "U3", params=[theta, phi, lam], qubits=qubits, **kwargs
-            )
-        case "x":
-            return quimb.tensor.Gate("X", params=[], qubits=qubits, **kwargs)
-        case "y":
-            return quimb.tensor.Gate("Y", params=[], qubits=qubits, **kwargs)
-        case "z":
-            return quimb.tensor.Gate("Z", params=[], qubits=qubits, **kwargs)
-        case _:
-            raise ValueError(f"Unsupported gate: {op.name}.")
+    try:
+        func = _gate_func[op.name]
+    except KeyError:
+        raise ValueError(f"Unsupported gate: {op.name}.") from None
+    else:
+        return func(op, qubits, kwargs)
