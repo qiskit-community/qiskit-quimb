@@ -23,7 +23,20 @@ classifiers = [
 dependencies = ["qiskit", "quimb"]
 
 [project.optional-dependencies]
-dev = ["coverage", "mypy", "pytest", "qiskit[visualization]", "ruff"]
+dev = [
+    "coverage",
+    "mypy",
+    "myst-parser",
+    "nbmake",
+    "nbsphinx",
+    "pytest",
+    "qiskit[visualization]",
+    "qiskit-sphinx-theme",
+    "ruff",
+    "sphinx",
+    "sphinx-autodoc-typehints",
+]
+docs = ["kahypar"]
 
 [project.urls]
 Homepage = "https://github.com/qiskit-community/qiskit-quimb"
