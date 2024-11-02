@@ -74,6 +74,8 @@ _gate_func: dict[
     Callable[[Instruction, Sequence[int], dict[str, Any]], quimb.tensor.Gate | None],
 ] = {}
 
+SUPPORTED_GATES = _gate_func.keys()
+
 
 def _register_gate_func(name: str):
     def g(f):
@@ -160,28 +162,28 @@ def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     return quimb.tensor.Gate("RXX", params=[theta], qubits=qubits, **kwargs)
 
 
-@_register_gate_func("ryy")
-def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
-    (theta,) = op.params
-    return quimb.tensor.Gate("RYY", params=[theta], qubits=qubits, **kwargs)
-
-
-@_register_gate_func("rzz")
-def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
-    (theta,) = op.params
-    return quimb.tensor.Gate("RZZ", params=[theta], qubits=qubits, **kwargs)
-
-
 @_register_gate_func("ry")
 def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     (theta,) = op.params
     return quimb.tensor.Gate("RY", params=[theta], qubits=qubits, **kwargs)
 
 
+@_register_gate_func("ryy")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("RYY", params=[theta], qubits=qubits, **kwargs)
+
+
 @_register_gate_func("rz")
 def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     (theta,) = op.params
     return quimb.tensor.Gate("RZ", params=[theta], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("rzz")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    (theta,) = op.params
+    return quimb.tensor.Gate("RZZ", params=[theta], qubits=qubits, **kwargs)
 
 
 @_register_gate_func("s")
