@@ -20,7 +20,7 @@ pip install qiskit-quimb
 
 The `qiskit_quimb` module exposes three functions:
 
-- `quimb_circuit`: Converts a Qiskit circuit to a quimb circuit. This is probably the function you want to use.
+- `quimb_circuit`: Converts a Qiskit circuit to a quimb circuit.
 - `quimb_gates`: Converts a Qiskit circuit to a list of quimb gates, which is a bit more flexible.
 - `quimb_gate`: Converts a Qiskit gate to a quimb gate.
 
