@@ -8,7 +8,8 @@
 # copyright notice, and modified files need to carry a notice indicating
 # that they have been altered from the originals.
 
-from qiskit_quimb.circuit import SUPPORTED_GATES, quimb_circuit, quimb_gate, quimb_gates
+from qiskit_quimb.circuit import quimb_circuit
+from qiskit_quimb.gate import SUPPORTED_GATES, quimb_gate, quimb_gates
 
 __all__ = [
     "SUPPORTED_GATES",
