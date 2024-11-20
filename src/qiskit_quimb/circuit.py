@@ -96,7 +96,7 @@ def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
 @_register_gate_func("cp")
 def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     (theta,) = op.params
-    return quimb.tensor.Gate("CU1", params=[theta], qubits=qubits, **kwargs)
+    return quimb.tensor.Gate("CPHASE", params=[theta], qubits=qubits, **kwargs)
 
 
 @_register_gate_func("cx")
@@ -140,7 +140,7 @@ def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
 @_register_gate_func("p")
 def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     (theta,) = op.params
-    return quimb.tensor.Gate("U1", params=[theta], qubits=qubits, **kwargs)
+    return quimb.tensor.Gate("PHASE", params=[theta], qubits=qubits, **kwargs)
 
 
 @_register_gate_func("rx")
