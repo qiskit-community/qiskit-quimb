@@ -58,13 +58,6 @@ def _gen_quimb_gates(
     name = op.name
     if name == "barrier":
         pass
-    elif name == "xx_plus_yy":
-        theta, beta = op.params
-        phi = beta + 0.5 * math.pi
-        a, b = qubits
-        yield quimb.tensor.Gate("RZ", params=[phi], qubits=[a], **kwargs)
-        yield quimb.tensor.Gate("GIVENS", params=[0.5 * theta], qubits=[a, b], **kwargs)
-        yield quimb.tensor.Gate("RZ", params=[-phi], qubits=[a], **kwargs)
     else:
         yield quimb_gate(op, qubits, **kwargs)
 
@@ -232,6 +225,14 @@ def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
 @_register_gate_func("x")
 def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     return quimb.tensor.Gate("X", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("xx_plus_yy")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    theta, beta = op.params
+    return quimb.tensor.Gate(
+        "GIVENS2", params=[0.5 * theta, beta + 0.5 * math.pi], qubits=qubits, **kwargs
+    )
 
 
 @_register_gate_func("y")
