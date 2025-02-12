@@ -143,6 +143,16 @@ def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     return quimb.tensor.Gate("SDG", params=[], qubits=qubits, **kwargs)
 
 
+@_register_gate_func("sx")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("SX", params=[], qubits=qubits, **kwargs)
+
+
+@_register_gate_func("sxdg")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return quimb.tensor.Gate("SXDG", params=[], qubits=qubits, **kwargs)
+
+
 @_register_gate_func("swap")
 def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     return quimb.tensor.Gate("SWAP", params=[], qubits=qubits, **kwargs)
