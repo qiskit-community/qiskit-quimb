@@ -184,9 +184,7 @@ def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
 @_register_gate_func("xx_plus_yy")
 def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     theta, beta = op.params
-    return quimb.tensor.Gate(
-        "GIVENS2", params=[0.5 * theta, beta + 0.5 * math.pi], qubits=qubits, **kwargs
-    )
+    return quimb.tensor.Gate("XXPLUSYY", params=[theta, beta], qubits=qubits, **kwargs)
 
 
 @_register_gate_func("y")
