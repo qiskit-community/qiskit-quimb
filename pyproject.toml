@@ -35,8 +35,18 @@ dev = [
     "ruff",
     "sphinx",
     "sphinx-autodoc-typehints",
+    # contengra recommended selection of optional dependencies
+    "autoray",
+    "cmaes",
+    "cotengrust",
+    "cytoolz",
+    "kahypar",
+    "loky",
+    "networkx",
+    "opt_einsum",
+    "optuna",
+    "tqdm",
 ]
-docs = ["kahypar"]
 
 [project.urls]
 Homepage = "https://github.com/qiskit-community/qiskit-quimb"
