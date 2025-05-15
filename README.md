@@ -6,6 +6,10 @@ Simulate [Qiskit](https://www.ibm.com/quantum/qiskit) circuits using [quimb](htt
 
 <!-- end introduction -->
 
+## Documentation
+
+Documentation is located at the [project website](https://qiskit-community.github.io/qiskit-quimb/).
+
 ## Installation
 
 <!-- start installation -->
@@ -23,6 +27,8 @@ The `qiskit_quimb` module exposes three functions:
 - `quimb_circuit`: Converts a Qiskit circuit to a quimb circuit.
 - `quimb_gates`: Converts a Qiskit circuit to a list of quimb gates, which is a bit more flexible.
 - `quimb_gate`: Converts a Qiskit gate to a quimb gate.
+
+For details, refer to the [API documentation](https://qiskit-community.github.io/qiskit-quimb/api/qiskit_quimb.html).
 
 ## Code example
 
