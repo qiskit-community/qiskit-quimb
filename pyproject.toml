@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Physics",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = ["qiskit", "quimb >= 1.9"]
+dependencies = ["qiskit", "quimb >= 1.11"]
 
 [project.optional-dependencies]
 dev = [
