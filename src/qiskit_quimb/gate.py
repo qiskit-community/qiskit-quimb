@@ -226,7 +226,7 @@ def quimb_gates(circuit: QuantumCircuit) -> list[quimb.tensor.Gate]:
     gates = []
     for instruction in circuit.data:
         op = instruction.operation
-        qubits = [circuit.find_bit(qubit)[0] for qubit in instruction.qubits]
+        qubits = [circuit.find_bit(qubit).index for qubit in instruction.qubits]
         for gate in _gen_quimb_gates(op, qubits):
             gates.append(gate)
     return gates
