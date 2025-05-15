@@ -9,7 +9,6 @@
 # that they have been altered from the originals.
 from __future__ import annotations
 
-import math
 from collections.abc import Iterator, Sequence
 from typing import Any, Callable
 
