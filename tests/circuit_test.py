@@ -10,6 +10,8 @@
 
 """Tests for gates."""
 
+import cmath
+
 import numpy as np
 from qiskit.circuit import QuantumCircuit, QuantumRegister
 from qiskit.circuit.library import (
@@ -20,6 +22,7 @@ from qiskit.circuit.library import (
     CXGate,
     CYGate,
     CZGate,
+    GlobalPhaseGate,
     HGate,
     IGate,
     PhaseGate,
@@ -107,11 +110,22 @@ def test_quimb_circuit():
     circuit.append(Barrier(4), [a, b, c, d])
     circuit.append(Barrier(3), [a, b, d])
 
+    # Add a global phase gate
+    circuit.append(GlobalPhaseGate(1.0), [])
+
     quimb_circ = quimb_circuit(circuit)
     qiskit_vec = np.array(Statevector(circuit))
     quimb_vec = quimb_circ.to_dense(reverse=True).reshape(-1)
+
+    # Multiply by the global phase
+    quimb_vec *= cmath.rect(1, 1.0)
+
     np.testing.assert_allclose(quimb_vec, qiskit_vec)
 
 
 def test_quimb_gate_on_barrier():
     assert quimb_gate(Barrier(4), range(4)) is None
+
+
+def test_quimb_gate_on_global_phase():
+    assert quimb_gate(GlobalPhaseGate(1.0), []) is None
