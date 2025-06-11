@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>qiskit_quimb.gate - qiskit-quimb 0.0.8</title>
+        <title>qiskit_quimb.gate - qiskit-quimb 0.0.9</title>
       <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/qiskit-sphinx-theme.css?v=8ff9dcb6" />
@@ -158,7 +158,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">qiskit-quimb 0.0.8</div></a>
+      <a href="../../index.html"><div class="brand">qiskit-quimb 0.0.9</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">qiskit-quimb 0.0.8</span>
+  <span class="sidebar-brand-text">qiskit-quimb 0.0.9</span>
   
 </a>
 
@@ -306,6 +306,11 @@
 <span class="nd">@_register_gate_func</span><span class="p">(</span><span class="s2">&quot;cz&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="n">op</span><span class="p">:</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">qubits</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
     <span class="k">return</span> <span class="n">quimb</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">Gate</span><span class="p">(</span><span class="s2">&quot;CZ&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">[],</span> <span class="n">qubits</span><span class="o">=</span><span class="n">qubits</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="nd">@_register_gate_func</span><span class="p">(</span><span class="s2">&quot;global_phase&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="n">op</span><span class="p">:</span> <span class="n">Instruction</span><span class="p">,</span> <span class="n">qubits</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">return</span> <span class="kc">None</span>
 
 
 <span class="nd">@_register_gate_func</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)</span>
@@ -487,7 +492,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">quimb</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">Gate</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a Qiskit gate to quimb gates.&quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">name</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;barrier&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;barrier&quot;</span><span class="p">,</span> <span class="s2">&quot;global_phase&quot;</span><span class="p">]:</span>
         <span class="k">pass</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">yield</span> <span class="n">quimb_gate</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -523,7 +528,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=53b53b71"></script>
+</div><script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
