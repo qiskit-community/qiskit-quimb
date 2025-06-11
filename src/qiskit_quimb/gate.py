@@ -67,6 +67,11 @@ def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     return quimb.tensor.Gate("CZ", params=[], qubits=qubits, **kwargs)
 
 
+@_register_gate_func("global_phase")
+def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
+    return None
+
+
 @_register_gate_func("h")
 def _(op: Instruction, qubits: Sequence[int], kwargs: dict[str, Any]):
     return quimb.tensor.Gate("H", params=[], qubits=qubits, **kwargs)
@@ -240,7 +245,7 @@ def _gen_quimb_gates(
 ) -> Iterator[quimb.tensor.Gate]:
     """Convert a Qiskit gate to quimb gates."""
     name = op.name
-    if name == "barrier":
+    if name in ["barrier", "global_phase"]:
         pass
     else:
         yield quimb_gate(op, qubits, **kwargs)
