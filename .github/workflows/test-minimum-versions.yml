@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9"]
+        python-version: ["3.10"]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -32,4 +32,4 @@ jobs:
           extremal-python-dependencies pin-dependencies-to-minimum --inplace
       - name: Run tests
         run: |
-          tox run -e py${{ matrix.python-version }}
+          tox run -e test-${{ matrix.python-version }}
