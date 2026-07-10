@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Physics",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = ["qiskit", "quimb >= 1.11"]
+dependencies = ["qiskit < 3", "quimb >= 1.11"]
 
 [project.urls]
 Homepage = "https://github.com/qiskit-community/qiskit-quimb"
