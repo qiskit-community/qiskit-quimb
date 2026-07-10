@@ -34,4 +34,4 @@ jobs:
               --inplace
       - name: Run tests
         run: |
-          tox run -e py${{ matrix.python-version }}
+          tox run -e test-${{ matrix.python-version }}

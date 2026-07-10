@@ -23,24 +23,26 @@ classifiers = [
 ]
 dependencies = ["qiskit", "quimb >= 1.11"]
 
-[project.optional-dependencies]
+[project.urls]
+Homepage = "https://github.com/qiskit-community/qiskit-quimb"
+
+[dependency-groups]
 dev = [
     "coverage",
     "mypy",
+    "pytest",
+    "ruff",
+]
+docs = [
+    "kahypar",
     "myst-parser",
     "nbmake",
     "nbsphinx",
-    "pytest",
     "qiskit[visualization]",
     "qiskit-sphinx-theme",
-    "ruff",
     "sphinx",
     "sphinx-autodoc-typehints",
 ]
-docs = ["kahypar"]
-
-[project.urls]
-Homepage = "https://github.com/qiskit-community/qiskit-quimb"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -63,3 +65,85 @@ include = [
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "NPY"]
+
+[tool.tox]
+requires = ["tox>=4.50"]
+env_list = [
+    "test-3.9",
+    "test-3.10",
+    "test-3.11",
+    "test-3.12",
+    "test-3.13",
+    "coverage",
+    "type",
+    "lint",
+    "format",
+    "docs",
+]
+
+[tool.tox.env_base.test]
+description = "run tests"
+factors = [["3.9", "3.10", "3.11", "3.12", "3.13"]]
+deps = ["pytest"]
+commands = [["pytest"]]
+
+[tool.tox.env.coverage]
+description = "check test coverage"
+deps = ["coverage", "pytest"]
+commands = [
+    [
+        "coverage",
+        "run",
+        "--source",
+        "qiskit_quimb",
+        "-m",
+        "pytest",
+    ],
+    [
+        "coverage",
+        "report",
+        "--fail-under=80",
+    ],
+]
+
+[tool.tox.env.type]
+description = "run type check"
+deps = ["mypy"]
+commands = [["mypy"]]
+
+[tool.tox.env.lint]
+description = "check for lint"
+skip_install = true
+deps = ["ruff"]
+commands = [["ruff", "check"]]
+
+[tool.tox.env.format]
+description = "check formatting"
+skip_install = true
+deps = ["ruff"]
+commands = [["ruff", "format", "--check"]]
+
+[tool.tox.env.docs]
+description = "build docs"
+dependency_groups = ["docs"]
+set_env.SPHINX_APIDOC_OPTIONS = "members,show-inheritance"
+commands = [
+    [
+        "python",
+        "-c",
+        "import shutil, pathlib; shutil.rmtree(pathlib.Path('docs') / 'stubs', ignore_errors=True)",
+    ],
+    [
+        "python",
+        "-c",
+        "import shutil, pathlib; shutil.rmtree(pathlib.Path('docs') / '_build', ignore_errors=True)",
+    ],
+    [
+        "sphinx-build",
+        "-b",
+        "html",
+        "-W",
+        "docs/",
+        "docs/_build/html",
+    ],
+]
